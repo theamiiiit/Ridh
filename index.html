@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Letter</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+<div class="container">
+  <div class="envelope-wrapper">
+    <div class="envelope">
+      <div class="letter">
+        <!-- Photo -->
+        <img src="photo.jpg" alt="Her Photo" class="letter-photo" />
+
+        <!-- Text -->
+        <div class="text">
+          <strong>Dear Ridh🩷</strong>
+          <p id="typed-text"></p>
+        </div>
+      </div>
+    </div>
+    <div class="heart"></div>
+  </div>
+</div>
+
+<script>
+const envelope = document.querySelector('.envelope-wrapper');
+const textEl = document.getElementById("typed-text");
+
+const message = `Hey Ridh,
+
+I’m terrible at keeping secrets, so I figured I should just tell you:
+I really like you. Honestly, you had my attention from the very first day.
+
+Since then, that feeling has only grown. I really care about you, and I can’t help but wonder what "us" would look like.
+I would love the chance to explore that and see where this could go.
+
+You’re incredible, and I just wanted you to know how I see you.`;
+
+let index = 0;
+let typingStarted = false;
+
+function typeText() {
+  if (index < message.length) {
+    textEl.innerHTML += message[index] === "\n" ? "<br>" : message[index];
+    index++;
+    setTimeout(typeText, 35);
+  }
+}
+
+envelope.addEventListener('click', () => {
+  envelope.classList.toggle('flap');
+
+  if (!typingStarted) {
+    typingStarted = true;
+    setTimeout(typeText, 1400);
+  }
+});
+</script>
+
+</body>
+</html>
