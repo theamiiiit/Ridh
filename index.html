@@ -3,21 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Letter for Her<3</title>
-  <link rel="stylesheet" href="./style.css" />
+  <title>Letter for Her</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
 <div class="container">
-  <div class="envelope-wrapper">
+  <div class="envelope-wrapper" id="envelope">
     <div class="envelope">
       <div class="letter">
-        <!-- Photo -->
         
-
-        <!-- Text -->
         <div class="text">
-          <strong>Dear Ridh🩷</strong>
+          <strong>Dear Ridh 💗</strong>
           <p id="typed-text"></p>
         </div>
       </div>
@@ -27,10 +24,10 @@
 </div>
 
 <script>
-const envelope = document.querySelector('.envelope-wrapper');
+const envelope = document.getElementById("envelope");
 const textEl = document.getElementById("typed-text");
 
-const message = `
+const message = `Hey Ridh,
 
 I’m terrible at keeping secrets, so I figured I should just tell you:
 I really like you. Honestly, you had my attention from the very first day.
@@ -40,23 +37,23 @@ I would love the chance to explore that and see where this could go.
 
 You’re incredible, and I just wanted you to know how I see you.`;
 
-let index = 0;
-let typingStarted = false;
+let i = 0;
+let started = false;
 
 function typeText() {
-  if (index < message.length) {
-    textEl.innerHTML += message[index] === "\n" ? "<br>" : message[index];
-    index++;
-    setTimeout(typeText, 35);
+  if (i < message.length) {
+    textEl.innerHTML += message[i] === "\n" ? "<br>" : message[i];
+    i++;
+    setTimeout(typeText, 30);
   }
 }
 
-envelope.addEventListener('click', () => {
-  envelope.classList.toggle('flap');
+envelope.addEventListener("click", () => {
+  envelope.classList.toggle("flap");
 
-  if (!typingStarted) {
-    typingStarted = true;
-    setTimeout(typeText, 1400);
+  if (!started) {
+    started = true;
+    setTimeout(typeText, 1200);
   }
 });
 </script>
