@@ -1,0 +1,129 @@
+:root {
+  --primary: #fff;
+  --bg-gradient: linear-gradient(135deg, #ffafbd, #ffc3a0);
+  --bg-envelope-color: #fdf1e7;
+  --envelope-tab: #f8d7c0;
+  --envelope-cover: #f2c6a0;
+  --shadow-color: rgba(0,0,0,0.25);
+  --txt-color: #444;
+  --heart-color: #ff2d75;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+  display: grid;
+  place-items: center;
+}
+
+.envelope-wrapper {
+  background: var(--bg-envelope-color);
+  box-shadow: 0 20px 60px var(--shadow-color);
+  transition: transform 0.6s ease;
+}
+
+.envelope {
+  position: relative;
+  width: 320px;
+  height: 240px;
+}
+
+.envelope::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  border-top: 140px solid var(--envelope-tab);
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  transform-origin: top;
+  transition: transform 0.7s ease;
+  z-index: 2;
+}
+
+.envelope::after {
+  content: "";
+  position: absolute;
+  border-left: 160px solid var(--envelope-cover);
+  border-right: 160px solid var(--envelope-cover);
+  border-bottom: 110px solid var(--envelope-cover);
+  border-top: 140px solid transparent;
+  z-index: 1;
+}
+
+.letter {
+  position: absolute;
+  bottom: 0;
+  right: 20%;
+  width: 60%;
+  height: 85%;
+  background: white;
+  padding: 15px;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  transition: all 1s cubic-bezier(.68,-0.55,.27,1.55);
+  overflow-y: auto;
+}
+
+.letter-photo {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.text {
+  font-size: 11px;
+  color: var(--txt-color);
+}
+
+.heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: var(--heart-color);
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: pulse 1.2s infinite;
+  cursor: pointer;
+  z-index: 4;
+}
+
+.heart::before,
+.heart::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: var(--heart-color);
+  border-radius: 50%;
+  position: absolute;
+}
+
+.heart::before { top: -8px; }
+.heart::after { left: -8px; }
+
+@keyframes pulse {
+  0% { transform: scale(1) rotate(45deg); }
+  50% { transform: scale(1.25) rotate(45deg); }
+  100% { transform: scale(1) rotate(45deg); }
+}
+
+.flap .envelope::before {
+  transform: rotateX(180deg);
+}
+
+.flap .letter {
+  bottom: 110px;
+  transform: scale(1.4);
+}
+
+.flap .heart {
+  animation: none;
+  transform: rotate(90deg);
+}
