@@ -1,16 +1,14 @@
 :root {
-  --bg: linear-gradient(135deg, #ffb6c1, #ffd1dc);
+  --bg: radial-gradient(circle at top, #ffd1dc, #ffb6c1);
   --env-bg: #fde6cf;
   --env-tab: #f8d4b0;
   --env-cover: #f2c39b;
   --shadow: rgba(0,0,0,.25);
-  --text: #444;
+  --text: #333;
   --heart: #ff2d75;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -27,88 +25,111 @@ body {
   place-items: center;
 }
 
-/* envelope box */
 .envelope-wrapper {
   position: relative;
-  background: var(--env-bg);
-  box-shadow: 0 30px 60px var(--shadow);
+  width: 360px;
+  height: 280px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: transform 0.4s ease;
+  filter: drop-shadow(0 25px 40px var(--shadow));
 }
 
-.envelope-wrapper:active {
-  transform: scale(0.98);
-}
-
-/* envelope size */
 .envelope {
   position: relative;
-  width: 340px;
-  height: 260px;
+  width: 100%;
+  height: 100%;
+  background: var(--env-bg);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-/* flap */
+/* ✅ Flap */
 .envelope::before {
   content: "";
   position: absolute;
   top: 0;
-  border-top: 140px solid var(--env-tab);
-  border-left: 170px solid transparent;
-  border-right: 170px solid transparent;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-top: 150px solid var(--env-tab);
+  border-left: 180px solid transparent;
+  border-right: 180px solid transparent;
   transform-origin: top;
-  transition: transform .8s ease;
-  z-index: 5;
+  transition: transform 0.85s ease;
+  z-index: 6;
 }
 
-/* body cover */
+/* ✅ Envelope bottom (body) */
 .envelope::after {
   content: "";
   position: absolute;
-  border-left: 170px solid var(--env-cover);
-  border-right: 170px solid var(--env-cover);
-  border-bottom: 120px solid var(--env-cover);
-  border-top: 140px solid transparent;
-  z-index: 1;
-}
-
-/* letter */
-.letter {
-  position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 78%;
-  height: 80%;
-  background: white;
-  padding: 16px 14px;
-  border-radius: 8px;
-  box-shadow: 0 15px 30px var(--shadow);
-  transition: all 1s cubic-bezier(.22,.61,.36,1);
-  overflow: hidden;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 180px solid var(--env-cover);
+  border-right: 180px solid var(--env-cover);
+  border-bottom: 130px solid var(--env-cover);
+  border-top: 150px solid transparent;
   z-index: 2;
 }
 
-/* text */
+/* ✅ Letter */
+.letter {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76%;
+  height: 72%;
+  background: white;
+  padding: 16px 14px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.18);
+  transition: all 1s cubic-bezier(.22,.61,.36,1);
+  overflow: hidden;
+  z-index: 3;
+}
+
 .text {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text);
 }
 
 .text strong {
   display: block;
-  margin-bottom: 10px;
   font-size: 14px;
+  margin-bottom: 10px;
 }
 
-/* heart */
+/* ✅ Side covers to hide letter overflow edges */
+.side-covers {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.side-covers::before,
+.side-covers::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  height: 65%;
+  background: var(--env-cover);
+}
+
+.side-covers::before { left: 0; transform: skewX(12deg); }
+.side-covers::after  { right: 0; transform: skewX(-12deg); }
+
+/* ✅ Heart */
 .heart {
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   background: var(--heart);
   transform: translate(-50%, -50%) rotate(45deg);
   animation: pulse 1.2s infinite;
@@ -118,60 +139,55 @@ body {
 .heart::before,
 .heart::after {
   content: "";
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  width: 18px;
+  height: 18px;
   background: var(--heart);
   border-radius: 50%;
-  position: absolute;
 }
 
-.heart::before { top: -8px; }
-.heart::after { left: -8px; }
+.heart::before { top: -9px; left: 0; }
+.heart::after { left: -9px; top: 0; }
 
-/* pulse */
 @keyframes pulse {
   0% { transform: translate(-50%, -50%) scale(1) rotate(45deg); }
   50% { transform: translate(-50%, -50%) scale(1.25) rotate(45deg); }
   100% { transform: translate(-50%, -50%) scale(1) rotate(45deg); }
 }
 
-/* open */
+/* ✅ Open state */
 .flap .envelope::before {
   transform: rotateX(180deg);
 }
 
 .flap .letter {
-  bottom: 85px;
-  transform: translateX(-50%) scale(1.06);
+  bottom: 88px;
+  transform: translateX(-50%) scale(1.03);
 }
 
+/* ✅ Heart rotation on open */
 .flap .heart {
   animation: none;
-  transform: rotate(90deg);
+  transform: translate(-50%, -50%) rotate(90deg);
 }
 
-/* ✅ responsive for mobile */
+/* ✅ Responsive */
 @media (max-width: 420px) {
-  .envelope {
-    width: 290px;
-    height: 230px;
+  .envelope-wrapper {
+    width: 310px;
+    height: 250px;
   }
 
   .envelope::before {
-    border-top: 120px solid var(--env-tab);
-    border-left: 145px solid transparent;
-    border-right: 145px solid transparent;
+    border-top: 130px solid var(--env-tab);
+    border-left: 155px solid transparent;
+    border-right: 155px solid transparent;
   }
 
   .envelope::after {
-    border-left: 145px solid var(--env-cover);
-    border-right: 145px solid var(--env-cover);
-    border-bottom: 110px solid var(--env-cover);
-    border-top: 120px solid transparent;
-  }
-
-  .letter {
-    width: 82%;
-    height: 78%;
+    border-left: 155px solid var(--env-cover);
+    border-right: 155px solid var(--env-cover);
+    border-bottom: 120px solid var(--env-cover);
+    border-top: 130px solid transparent;
   }
 }
