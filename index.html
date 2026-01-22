@@ -17,10 +17,7 @@
           <p id="typed-text"></p>
         </div>
       </div>
-
-      <div class="side-covers"></div>
     </div>
-
     <div class="heart"></div>
   </div>
 </div>
@@ -41,29 +38,33 @@ You’re incredible, and I just wanted you to know how I see you.`;
 
 let i = 0;
 let typingTimer = null;
+let typedOnce = false;
 
 function resetTyping() {
   clearTimeout(typingTimer);
   textEl.innerHTML = "";
   i = 0;
+  typedOnce = false;
 }
 
 function typeText() {
   if (i < message.length) {
     textEl.innerHTML += message[i] === "\n" ? "<br>" : message[i];
     i++;
-    typingTimer = setTimeout(typeText, 26);
+    typingTimer = setTimeout(typeText, 25);
   }
 }
 
 envelope.addEventListener("click", () => {
-  const isOpening = !envelope.classList.contains("flap");
   envelope.classList.toggle("flap");
 
-  if (isOpening) {
+  if (envelope.classList.contains("flap") && !typedOnce) {
+    typedOnce = true;
     resetTyping();
     setTimeout(typeText, 1200);
-  } else {
+  }
+
+  if (!envelope.classList.contains("flap")) {
     resetTyping();
   }
 });
