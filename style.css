@@ -33,13 +33,14 @@ body{
   filter: drop-shadow(0 25px 40px var(--shadow));
 }
 
+/* ✅ IMPORTANT: remove overflow hidden from envelope */
 .envelope{
   position:relative;
   width:100%;
   height:100%;
   background:var(--env-bg);
   border-radius:4px;
-  overflow:hidden;
+  overflow: visible; /* ✅ so letter can come outside */
 }
 
 /* flap */
@@ -57,7 +58,7 @@ body{
   z-index:6;
 }
 
-/* bottom body */
+/* body */
 .envelope::after{
   content:"";
   position:absolute;
@@ -71,7 +72,7 @@ body{
   z-index:2;
 }
 
-/* ✅ Letter */
+/* ✅ LETTER (closed state inside) */
 .letter{
   position:absolute;
   bottom:18px;
@@ -84,13 +85,17 @@ body{
   border-radius:10px;
   box-shadow:0 10px 20px rgba(0,0,0,.18);
   transition: all 1s cubic-bezier(.22,.61,.36,1);
-  overflow:hidden; /* ✅ hidden in close mode */
+  overflow:hidden; /* closed state */
   z-index:3;
 }
 
-/* ✅ scroll ONLY when open */
+/* ✅ Open state: FULL OPEN + SCROLL */
 .flap .letter{
-  overflow-y:auto;
+  bottom:180px; /* ✅ now letter fully comes out */
+  height:260px; /* ✅ bigger letter */
+  width:82%;
+  overflow-y:auto; /* ✅ scroll will work */
+  transform:translateX(-50%) scale(1.02);
 }
 
 /* text */
@@ -104,36 +109,6 @@ body{
   display:block;
   font-size:14px;
   margin-bottom:10px;
-}
-
-/* ✅ Side Covers FIXED: only hide edges */
-.side-covers{
-  position:absolute;
-  inset:0;
-  z-index:4;
-  pointer-events:none;
-}
-
-.side-covers::before,
-.side-covers::after{
-  content:"";
-  position:absolute;
-  bottom:0;
-  width:28%;
-  height:62%;
-  background:var(--env-cover);
-}
-
-.side-covers::before{
-  left:0;
-  transform:skewX(14deg);
-  border-top-right-radius:40px;
-}
-
-.side-covers::after{
-  right:0;
-  transform:skewX(-14deg);
-  border-top-left-radius:40px;
 }
 
 /* ✅ Heart */
@@ -168,21 +143,24 @@ body{
   100%{ transform:translate(-50%,-50%) scale(1) rotate(45deg); }
 }
 
-/* ✅ OPEN STATE */
+/* open flap */
 .flap .envelope::before{
   transform: rotateX(180deg);
 }
 
-/* ✅ Move letter MUCH higher */
-.flap .letter{
-  bottom:120px; /* ✅ more up */
-  transform:translateX(-50%) scale(1.02);
-}
-
-/* heart */
+/* heart open */
 .flap .heart{
   animation:none;
   transform:translate(-50%,-50%) rotate(90deg);
+}
+
+/* ✅ Smooth Scroll look */
+.flap .letter::-webkit-scrollbar{
+  width:6px;
+}
+.flap .letter::-webkit-scrollbar-thumb{
+  background:#ff98b4;
+  border-radius:10px;
 }
 
 /* responsive */
@@ -200,5 +178,10 @@ body{
     border-right:155px solid var(--env-cover);
     border-bottom:120px solid var(--env-cover);
     border-top:130px solid transparent;
+  }
+
+  .flap .letter{
+    bottom:160px;
+    height:240px;
   }
 }
