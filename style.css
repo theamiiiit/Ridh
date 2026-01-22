@@ -27,20 +27,28 @@ body {
   place-items: center;
 }
 
+/* envelope box */
 .envelope-wrapper {
   position: relative;
   background: var(--env-bg);
   box-shadow: 0 30px 60px var(--shadow);
   cursor: pointer;
+  border-radius: 6px;
+  transition: transform 0.4s ease;
 }
 
+.envelope-wrapper:active {
+  transform: scale(0.98);
+}
+
+/* envelope size */
 .envelope {
   position: relative;
   width: 340px;
   height: 260px;
 }
 
-/* Flap */
+/* flap */
 .envelope::before {
   content: "";
   position: absolute;
@@ -53,7 +61,7 @@ body {
   z-index: 5;
 }
 
-/* Body */
+/* body cover */
 .envelope::after {
   content: "";
   position: absolute;
@@ -64,42 +72,37 @@ body {
   z-index: 1;
 }
 
-/* Letter */
+/* letter */
 .letter {
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 75%;
-  height: 78%;
+  width: 78%;
+  height: 80%;
   background: white;
-  padding: 14px;
-  border-radius: 6px;
+  padding: 16px 14px;
+  border-radius: 8px;
   box-shadow: 0 15px 30px var(--shadow);
-  transition: all 1s ease;
+  transition: all 1s cubic-bezier(.22,.61,.36,1);
   overflow: hidden;
   z-index: 2;
 }
 
-.letter-photo {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 8px;
-}
-
+/* text */
 .text {
-  font-size: 11px;
+  font-size: 12px;
+  line-height: 1.5;
   color: var(--text);
 }
 
 .text strong {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
-/* Heart */
+/* heart */
 .heart {
   position: absolute;
   top: 50%;
@@ -125,23 +128,50 @@ body {
 .heart::before { top: -8px; }
 .heart::after { left: -8px; }
 
+/* pulse */
 @keyframes pulse {
   0% { transform: translate(-50%, -50%) scale(1) rotate(45deg); }
   50% { transform: translate(-50%, -50%) scale(1.25) rotate(45deg); }
   100% { transform: translate(-50%, -50%) scale(1) rotate(45deg); }
 }
 
-/* Open state */
+/* open */
 .flap .envelope::before {
   transform: rotateX(180deg);
 }
 
 .flap .letter {
   bottom: 85px;
-  transform: translateX(-50%) scale(1.08);
+  transform: translateX(-50%) scale(1.06);
 }
 
 .flap .heart {
   animation: none;
   transform: rotate(90deg);
+}
+
+/* ✅ responsive for mobile */
+@media (max-width: 420px) {
+  .envelope {
+    width: 290px;
+    height: 230px;
+  }
+
+  .envelope::before {
+    border-top: 120px solid var(--env-tab);
+    border-left: 145px solid transparent;
+    border-right: 145px solid transparent;
+  }
+
+  .envelope::after {
+    border-left: 145px solid var(--env-cover);
+    border-right: 145px solid var(--env-cover);
+    border-bottom: 110px solid var(--env-cover);
+    border-top: 120px solid transparent;
+  }
+
+  .letter {
+    width: 82%;
+    height: 78%;
+  }
 }
