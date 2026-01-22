@@ -12,7 +12,6 @@
   <div class="envelope-wrapper" id="envelope">
     <div class="envelope">
       <div class="letter">
-        
         <div class="text">
           <strong>Dear Ridh 💗</strong>
           <p id="typed-text"></p>
@@ -38,22 +37,36 @@ I would love the chance to explore that and see where this could go.
 You’re incredible, and I just wanted you to know how I see you.`;
 
 let i = 0;
-let started = false;
+let typingTimer = null;
+let isTyping = false;
+
+function resetTyping() {
+  clearTimeout(typingTimer);
+  textEl.innerHTML = "";
+  i = 0;
+  isTyping = false;
+}
 
 function typeText() {
   if (i < message.length) {
     textEl.innerHTML += message[i] === "\n" ? "<br>" : message[i];
     i++;
-    setTimeout(typeText, 30);
+    typingTimer = setTimeout(typeText, 28);
+  } else {
+    isTyping = false;
   }
 }
 
 envelope.addEventListener("click", () => {
+  const isOpening = !envelope.classList.contains("flap");
   envelope.classList.toggle("flap");
 
-  if (!started) {
-    started = true;
+  if (isOpening) {
+    resetTyping();
+    isTyping = true;
     setTimeout(typeText, 1200);
+  } else {
+    resetTyping();
   }
 });
 </script>
