@@ -17,7 +17,11 @@
           <p id="typed-text"></p>
         </div>
       </div>
+
+      <!-- ✅ NEW: Side covers to hide letter edges -->
+      <div class="side-covers"></div>
     </div>
+
     <div class="heart"></div>
   </div>
 </div>
@@ -38,22 +42,18 @@ You’re incredible, and I just wanted you to know how I see you.`;
 
 let i = 0;
 let typingTimer = null;
-let isTyping = false;
 
 function resetTyping() {
   clearTimeout(typingTimer);
   textEl.innerHTML = "";
   i = 0;
-  isTyping = false;
 }
 
 function typeText() {
   if (i < message.length) {
     textEl.innerHTML += message[i] === "\n" ? "<br>" : message[i];
     i++;
-    typingTimer = setTimeout(typeText, 28);
-  } else {
-    isTyping = false;
+    typingTimer = setTimeout(typeText, 26);
   }
 }
 
@@ -63,7 +63,6 @@ envelope.addEventListener("click", () => {
 
   if (isOpening) {
     resetTyping();
-    isTyping = true;
     setTimeout(typeText, 1200);
   } else {
     resetTyping();
